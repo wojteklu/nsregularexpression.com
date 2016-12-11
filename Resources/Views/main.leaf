@@ -1,0 +1,111 @@
+#extend("base")
+
+#export("head") {
+	<title>NSRegularExpression</title>
+    <meta name="description" content="Swift regular expression editor">
+	<link rel="stylesheet" href="/styles/app.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js"></script>
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-88800822-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+    <script>
+
+    function update() {
+        var regex = $("#()regex").val();
+        var test = $("#()string").val();
+
+        var params = $.param({
+            regex: regex,
+            text: test
+        });
+
+        if (regex.length > 0 && test.length > 0) {
+
+            $.ajax('/match', {
+                type: "post",
+                data: params,
+                dataType: 'json',
+                success: function(data, status, xhr) {
+
+                    ranges = data["ranges"]
+                    text = data["text"]
+
+                    if (ranges.length > 0) {
+
+                        var lastLocation = 0
+                        var result = "<label>Match result:</label><div id='result_box'>"
+
+                        for (i = 0; i < ranges.length; i++) {
+                            var range = ranges[i]
+                            var loc = range["location"]
+                            var len = range["length"]
+
+                            if (loc > lastLocation) {
+                                result += text.substring(lastLocation, loc)
+                            }
+
+                            result += "<span class='match'>" + text.substring(loc, loc + len) + "</span>"
+                            lastLocation = loc + len
+                        }
+
+                        if (lastLocation < text.length) {
+                            result += text.substring(lastLocation, text.length)
+                        }
+                        result += "</div>"
+                        $("#()result").html(result);
+                    } else {
+                        $("#()result").html("<div id='error'>No matches.</div>");
+                    }
+                }
+            })
+        } else {
+            $("#()result").html("<div id='warning'>Empty regular expression or text.</div>");
+        }
+    }
+
+    $(function() {
+        $("#()string").keyup(function() {
+            update()
+        });
+
+        $("#()regex").keyup(function() {
+            update()
+        });
+
+        update();
+    });
+
+    </script>
+}
+
+#export("body") {
+
+<div id="main">
+    <h1>NSRegularExpression</h1>
+    <h2>Swift regular expression editor</h2>
+    <div id="form">
+        <label>Your regular expression:</label>
+        <input id="regex" type="text" autocomplete="off">
+
+        <div id="form_bottom">
+            <div id="form_left">
+                <label>Your test string:</label>
+                <textarea id="string"></textarea>
+            </div>
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <div id="footer">Made by <a href="http://www.twitter.com/wojteklu">@wojteklu</a>.Open-source available at <a href="http://www.github.com/wojteklu/nsregularexpression.com">github</a>.
+    </div>
+
+</div>
+}
