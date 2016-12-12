@@ -17,8 +17,9 @@ public extension String {
         
         // crash occurs on Linux
         // when RegularExpression has not balanced parantheses
-        guard regex.hasBalancedParentheses else {
-            return []
+        guard regex.hasBalancedParentheses(left: "(", right: ")"),
+            regex.hasBalancedParentheses(left: "[", right: "]") else {
+                return []
         }
         
         // or when throws an exception
@@ -37,7 +38,7 @@ public extension String {
         }
     }
     
-    private var hasBalancedParentheses: Bool {
+    private func hasBalancedParentheses(left: String, right: String) -> Bool {
         
         let array = self.characters.map { String($0) }
         var leftCount = 0
@@ -45,11 +46,11 @@ public extension String {
         
         for (index, letter) in array.enumerated() {
             
-            if letter == "(" && (index == 0 || (index>0 && array[index-1] != "\\")) {
+            if letter == left && (index == 0 || (index>0 && array[index-1] != "\\")) {
                 leftCount += 1
             }
             
-            if letter == ")" && (index == 0 || (index>0 && array[index-1] != "\\")) {
+            if letter == right && (index == 0 || (index>0 && array[index-1] != "\\")) {
                 rightCount += 1
             }
         }
