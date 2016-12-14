@@ -68,7 +68,7 @@
                 }
             })
         } else {
-            $("#()result").html("<div id='warning'>Empty regular expression or text.</div>");
+            $("#()result").html("<div id='warning'>Enter a regular expression and a test string.</div>");
         }
     }
 
