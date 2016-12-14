@@ -41,7 +41,7 @@
                     if (ranges.length > 0) {
 
                         var lastLocation = 0
-                        var result = "<label>Match result:</label><div id='result_box'>"
+                        $("#()result").html("<label>Match result:</label><div id='result_box'></div>")
 
                         for (i = 0; i < ranges.length; i++) {
                             var range = ranges[i]
@@ -49,18 +49,19 @@
                             var len = range["length"]
 
                             if (loc > lastLocation) {
-                                result += text.substring(lastLocation, loc)
+                                $("#()result_box").append(text.substring(lastLocation, loc));
                             }
 
-                            result += "<span class='match'>" + text.substring(loc, loc + len) + "</span>"
+                            $("#()result_box").append("<span class='match'></span>");
+                            var string = document.createTextNode(text.substring(loc, loc + len))
+                            $("span.match:last").append(string);
                             lastLocation = loc + len
                         }
 
                         if (lastLocation < text.length) {
-                            result += text.substring(lastLocation, text.length)
+                            var string = document.createTextNode(text.substring(lastLocation, text.length))
+                            $("#()result_box").append(string);
                         }
-                        result += "</div>"
-                        $("#()result").html(result);
                     } else {
                         $("#()result").html("<div id='error'>No matches.</div>");
                     }
