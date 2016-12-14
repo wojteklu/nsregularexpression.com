@@ -10,10 +10,11 @@ drop.get("/") { request in
 drop.post("/match") { request in
     
     var regex = (request.data["regex"]?.string)!
-    let text = (request.data["text"]?.string)!
+    var text = (request.data["text"]?.string)!
     
-    // unescape backslash
-    regex = regex.replacingOccurrences(of: "\\\\", with: "\\")
+    // unescape
+    regex = regex.unescaped
+    text = text.unescaped
     
     let ranges = text.matches(for: regex).map { range -> Node in
         let location = Node.number(Node.Number(range.location))
