@@ -24,7 +24,7 @@ public extension String {
         
         // or when throws an exception
         var cRegex = regex_t()
-        let result = regcomp(&cRegex, regex, REG_EXTENDED)
+        let result = regcomp(&cRegex, regex, REG_LITERAL)
         if result != 0 {
             return []
         }
