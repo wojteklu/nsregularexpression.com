@@ -1,6 +1,8 @@
 # nsregularexpression.com
 
-Swift-based regular expression editor built using [Vapor](https://github.com/vapor/vapor). It allows to test regular expressions as you write them. Deployed on [nsregularexpression.com](http://nsregularexpression.com) with Heroku.  
+Swift-based regular expression editor built using [Vapor](https://github.com/vapor/vapor). It allows to test regular expressions as you write them. Deployed on [nsregularexpression.com](http://nsregularexpression.com) with Heroku. 
+
+![alt text](https://github.com/wojteklu/nsregularexpression.com/blob/master/nsregularexpression.png?raw=true)
 
 ## Contributing
 
